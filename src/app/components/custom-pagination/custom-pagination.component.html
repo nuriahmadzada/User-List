@@ -1,0 +1,4 @@
+<pagination *ngIf="isNewed" class="justify-content-center pagination-sm pag" [totalItems]='totalItems' [maxSize]='5'
+  [itemsPerPage]='currentItemCountPerPage' (pageChanged)="routeTo($event.page)" [(ngModel)]="currentPage"
+  previousText="&lsaquo;" nextText="&rsaquo;">
+</pagination>

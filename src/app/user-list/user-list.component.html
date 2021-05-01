@@ -1,0 +1,114 @@
+<nav class="navbar navbar-expand-lg  bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Welcome, {{userName | titlecase}}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="[ '/login' ]">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<div class="container">
+  <nav aria-label="breadcrumb" class="mt-5">
+    <button type="button" class="btn btn-primary" (click)="openModal(template)">
+      Create New User
+    </button>
+  </nav>
+
+  <div class="main-body mt-5">
+
+    <div *ngIf="userInfos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 gutters-sm">
+      <div class="col mb-4" *ngFor="let item of userInfos">
+        <div class="card" style="min-height: 30vh;">
+          <div class="card-body text-center">
+            <img [src]="item.avatar" style="width:100px;" alt="User"
+              class="img-fluid img-thumbnail rounded-circle border-0 mb-3">
+            <h5 class="card-title">{{item.first_name}} {{item.last_name}}</h5>
+            <p class="text-secondary mb-1">{{item.email}}</p>
+
+            <div dropdown>
+              <div class="" style="position: absolute; top: 0px; right: 0px">
+                <a style="font-size: 20px;" dropdownToggle class="btn btn-clean btn-sm btn-icon" aria-controls="dropdown-animated">
+                  <i class="mdi mdi-dots-vertical"></i>
+                </a>
+                <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu"
+                    role="menu" aria-labelledby="button-animated">
+                  <li role="menuitem"><a class="dropdown-item" (click)="openEditModal(editModal, item)">Edit User</a></li>
+                  <li role="menuitem"><a style="color: red; cursor: pointer;" class="dropdown-item" (click)="deleteUser(item.id)">Delete User</a></li>
+                </ul>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-custom-pagination [goFirstPage]="onFirstPage" [currentItemCountPerPage]="6" 
+    [totalItems]="itemCount" (onChange)="page = $event.activePage; getUsers();">
+    </app-custom-pagination>
+
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="createForm" (ngSubmit)="create()">
+      <div class="form-group">
+          <input type="text" class="form-control" placeholder="Your Name *" autocomplete="off"
+              formControlName="name" />
+      </div>
+      <div class="form-group">
+          <input type="text" class="form-control" placeholder="Your Job *"
+              formControlName="job" />
+      </div>
+
+      <p>{{errorMsg}}</p>
+      <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Create" />
+      </div>
+  </form>
+  </div>
+</ng-template>
+
+<ng-template #editModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editForm" (ngSubmit)="editUser()">
+      <input type="hidden" formControlName="id">
+
+      <div class="form-group">
+          <input type="text" class="form-control" placeholder="Your Name *" autocomplete="off"
+              formControlName="name" />
+      </div>
+      <div class="form-group">
+          <input type="text" class="form-control" placeholder="Your Job *"
+              formControlName="job" />
+      </div>
+
+      <p>{{errorMsg}}</p>
+      <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Edit" />
+      </div>
+  </form>
+  </div>
+</ng-template>

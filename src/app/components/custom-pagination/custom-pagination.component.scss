@@ -1,0 +1,40 @@
+.pag{
+    ul{
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    
+        li{
+            display: inline-block;
+            list-style-type: none;
+            margin: 0 5px;
+    
+            .pagination-prev,
+            .pagination-next{
+                font-size: 20px;
+                border: 1px solid #c9cfe5;
+            }
+    
+            .active,
+            &:hover{
+                border: 1px solid #4c69ff;
+            }
+    
+            a{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 4px;
+                line-height: 20px;
+                font-weight: 500;
+                color: #000;
+                text-decoration: none;
+                transition: all .2s ease-in-out;
+            }
+        }
+    }
+}
